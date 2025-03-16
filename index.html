@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotic Arm Controller</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .joystick-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .joystick {
+            width: 100px;
+            height: 100px;
+            background: lightgray;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Robotic Arm Controller</h1>
+    <p>Move the joysticks to control the robotic arm</p>
+
+    <div class="joystick-container">
+        <div class="joystick" id="base">Base</div>
+        <div class="joystick" id="shoulder">Shoulder</div>
+        <div class="joystick" id="elbow">Elbow</div>
+        <div class="joystick" id="wrist">Wrist</div>
+        <div class="joystick" id="wristRotate">Wrist Rotate</div>
+        <div class="joystick" id="grip">Grip</div>
+    </div>
+
+    <script>
+        const serverIP = "192.168.1.3";  // Change this to your ESP8266 IP address
+
+        function sendServoCommand(servo, angle) {
+            fetch(http://${serverIP}/move?servo=${servo}&angle=${angle})
+                .then(response => response.text())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        document.querySelectorAll('.joystick').forEach(joystick => {
+            joystick.addEventListener('click', () => {
+                let angle = Math.floor(Math.random() * 180); // Simulating movement
+                sendServoCommand(joystick.id, angle);
+                alert(${joystick.id} moved to ${angle}°);
+            });
+        });
+    </script>
+</body>
+</html>
